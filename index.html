@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<title>C++ training for students</title>
+
+	<link rel="stylesheet" href="dist/reset.css">
+	<link rel="stylesheet" href="dist/reveal.css">
+	<link rel="stylesheet" href="dist/theme/black.css">
+	<link href="https://fonts.googleapis.com/css?family=Fira+Code" rel="stylesheet">
+
+	<!-- Theme used for syntax highlighted code -->
+	<link rel="stylesheet" href="plugin/highlight/monokai.css">
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<section>
+				<h1>C++ compilation</h2>
+					<img src="img/presentation-logo.drawio.png" alt="">
+					<h4>From a source to executable file</h4>
+			</section>
+			<section>
+				<h2>Interpreted vs Compiled Programming Languages</h2>
+				<table class="reveal" style='font-size:50%'>
+					<tr>
+						<th class="fragment">
+							<h3>Compiled</h3>
+							<ul>
+								<li>converted directly into machine code that the processor can execute</li>
+								<li>tend to be more faster and efficient</li>
+								<li>more control over hardware aspects (like memory management)</li>
+								<li>Note: possibility of combination both approaches - translation to intermediate form (like C# or Java)</li>
+							</ul>
+							<img class="fragment" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/ISO_C%2B%2B_Logo.svg/800px-ISO_C%2B%2B_Logo.svg.png" height="100">
+							<img class="fragment" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Go_Logo_Blue.svg/1920px-Go_Logo_Blue.svg.png" height="100">
+						</th>
+						<th class="fragment">
+							<h3>Interpreted</h3>
+							<ul>
+								<li>interpreter, reads and executes the code</li>
+								<li>no worry about memory management (but can be forced)</li>
+								<li>in general slower</li>
+							</ul>
+							<img class="fragment" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Python_logo_and_wordmark.svg/1920px-Python_logo_and_wordmark.svg.png" height="100">
+							<img class="fragment" src="https://upload.wikimedia.org/wikipedia/commons/9/99/Unofficial_JavaScript_logo_2.svg" height="100">
+						</th>
+					</tr>
+				</table>
+				<aside class="notes">
+					- In c++ notebooks "interpreted C++"
+				</aside>
+				</section>
+			<section>
+				<h3>Most popular compilers</h3>
+				<table class="fragment" style='font-size:70%'>
+					<tr>
+						<th class="fragment">
+							<ul class="roman">
+								<li>GCC(GNU Compiler Collection)
+									<ul class="square">
+										<li>gcc for C and g++ for C++, other languages also supported</li>
+										<li>the standard compiler for Linux kernel</li>
+									</ul>
+								</li>
+							</ul>
+						</th>
+						<th>
+							<img class="fragment"
+								src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/GNU_Compiler_Collection_logo.svg/800px-GNU_Compiler_Collection_logo.svg.png"
+								width="150" height="100">
+						</th>
+					</tr>
+					<tr>
+						<th class="fragment">
+							<ul class="roman">
+								<li>Clang
+									<ul class="square">
+										<li>LLVM as a backend (intermediate representation before assembler code)</li>
+										<li>fast compiles and low memory use</li>
+										<li>many optimizations</li>
+									</ul>
+								</li>
+							</ul>
+						</th>
+						<th>
+							<img class="fragment"
+								src="https://llvm.org/img/LLVMWyvernSmall.png"
+								width="150" height="100">
+						</th>
+					</tr>
+					<tr>
+						<th class="fragment">
+							<ul class="roman">
+								<li>MSVC Compiler
+									<ul class="square">
+										<li>compiler for the C, C++, C++/CLI</li>
+										<li>part of Visual Studio</li>
+										<li>Windows os</li>
+									</ul>
+								</li>
+							</ul>
+						</th>
+						<th>
+							<img class="fragment"
+								src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Visual_Studio_Icon_2022.svg/1024px-Visual_Studio_Icon_2022.svg.png"
+								width="150" height="100">
+						</th>
+					</tr>
+				</table>
+			</section>
+			<section>
+				<h2>C++ compilation model</h2>
+				<ul>
+					<li class="fragment">Preprocessing</li>
+					<li class="fragment">Analysis and code generation</li>
+					<li class="fragment">Linking</li>
+				</ul>
+			</section>
+			<section>
+				<h2>Preprocessing</h2>
+				<ul>
+					<li class="fragment">Replacing <span class="fira accent">#include</span> directive with the content of indicated files</li>
+					<li class="fragment">Resolving macros (<span class="fira accent">#define</span> instructions)</li>
+					<li class="fragment"><span class="fira accent">-E</span> flag for GCC, Clang</li>
+				</ul>
+				<img class="fragment" src="img/cpp_macros.png">
+			</section>
+			<section style='font-size:70%'>
+				<h2>Analysis and code generation</h2>
+				<ul>
+					<li class="fragment">Checking code correctness (syntax and semantics)</li>
+					<li class="fragment">Optimizations</li>
+					<ul class="fragment">
+						<li>binary size</li>
+						<li>removing not reachable code</li>
+						<li>controlled by -O flag (in a basic scenario)</li>
+						<li>realized by analysis AST tree</li>
+						<!-- constant folding to check -->
+					</ul>
+					<li class="fragment">assembler code generation</li>
+					<img class="fragment" height="250" src="img/assembler.png">
+					<li class="fragment">machine code generation</li>
+					<li class="fragment">generation objects files (*.o)</li>
+				</ul>
+				<aside class="notes">
+					- syntax - spelling and punctuation errors
+					- semantics - types, castings
+					- -S flag for gcc to see assembler code
+					- object file similar to executable but without reference to external symbols, independent, -o switch for gcc
+					- AST - abstract syntax tree
+				</aside>
+			</section>
+			<section>
+				<h2>Linking</h2>
+				<ul>
+					<li class="fragment">Combining object files into executables/libraries</li>
+					<li class="fragment">optimizations (LTO)</li>
+					<li class="fragment">Can be ended with linker error, like undefined symbol or ambiguous definition error</li>
+				</ul>
+				<aside class="notes">
+					- LTO - making some functions inline, moving some blocks closer
+				</aside>
+			</section>
+			<section>
+				<h2>Sum-up of compilation model</h2>
+				<img class="fragment" src="img/compilation_model.png">
+			</section>
+			<section>
+				<h2>Libraries and executable</h2>
+				<ul class="roman">
+					<li class="fragment"><b>Object file (*.o)</b> - a binary file, input for linking process</li>
+					<li class="fragment"><b>Static library(*.lib)</b> - a binary file, that groups many object files, added to exe during linking (a copy for each executable)</li>
+					<li class="fragment"><b>Shared(dynamic) library(*.so,*.dll)</b> - a binary file, similar to static lib, loaded during runtime, one instance can be shared by many executable</li>
+					<li class="fragment"><b>Executable(*.exe, *[.out])</b> - can be launched in os environment, uses shared/static libs underneath</li>
+				</ul>
+			</section>
+			<section>
+				<h2>An example command, more details in the second day</h2>
+				<pre class="fragment"><code class="fira accent" data-code="./code/main.cpp" data-trim></code></pre>
+				<pre class="fragment"><code class="fira accent" data-trim data-noescape>g++ main.cpp -o hello.out</code></pre>
+				<pre class="fragment"><code class="fira accent" data-trim data-noescape>./hello.out</code></pre>
+				<pre class="fragment"><code class="fira accent" data-trim data-noescape>Hello Intel!</code></pre>
+			</section>
+			<section>
+				<h1>Stack vs Heap</h1>
+			</section>
+			<section>
+				<h2>Frame on the stack</h2>
+				<table class="reveal" style='font-size:70%'>
+					<tr><th class="fragment"><pre><code data-code="./code/main_func.cpp" data-trim></code></pre></th></tr>
+					<tr>
+						<th>
+							<ul>
+								<li class="fragment">The stack consists of stack frames (1 function - 1 frame)</li>
+								<li class="fragment">The details are determined by ABI, but a frame consist of:</li>
+								<ul class="fragment">
+									<li>arguments passed to the function</li>
+									<li>return address to caller function</li>
+									<li>local variable space</li>
+								</ul>
+								<li class="fragment">If we go out scope, the memory is deallocated</li>
+							</ul>
+						</th>
+					</tr>
+				</table>
+			</section>
+			<section style='font-size:70%'>
+				<h2>Stack overflow</h2>
+				<pre class="fragment"><code class="fira accent" data-code="./code/stack_overflow.cpp" data-trim></code></pre>
+				<pre class="fragment"><code class="fira accent" data-trim data-noescape>Segmentation fault</code></pre>
+				<img class="fragment" height="150" src="https://i.stack.imgur.com/MybMA.png">
+			</section>
+			<section>
+				<h2>Stack properties</h2>
+				<ul>
+					<li class="fragment">FILO - First in Last Out</li>
+					<li class="fragment">very fast access (via stack pointer)</li>
+					<li class="fragment">limited memory (os- and compiler- dependent)</li>
+					<li class="fragment">continuous memory</li>
+					<li class="fragment">automatic memory management</li>
+					<li class="fragment">memory size known and allocated during compilation</li>
+				</ul>
+				<aside class="notes">
+					- stack pointer - small register to store address of the last element on the stack
+				</aside>
+			</section>
+			<section>
+				<h2>Head allocation</h2>
+				<table class="reveal" style='font-size:60%'>
+					<tr class="fragment"><th><pre><code class="fira accent" data-code="./code/main_heap_alloc.cpp" data-trim></code></pre></th></tr>
+					<tr>
+						<th>
+							<ul class="fragment">
+								<li>both custom and basic types objects can be allocated on the heap</li>
+								<li>Pointer (p) to the memory is allocated on the stack!</li>
+								<li>sizeof(Foo) bytes are allocated on the heap</li>
+								<li>address of the memory is assigned to the pointer p</li>
+								<li>we have to release the memory manually (delete)</li>
+							</ul>
+						</th>
+					</tr>
+				</table>
+			</section>
+			<section>
+				<h2>Heap properties</h2>
+				<ul>
+					<li class="fragment">slower access to the memory</li>
+					<li class="fragment">no memory limits (only hardware limitations)</li>
+					<li class="fragment">memory can be fragmented</li>
+					<li class="fragment">manual memory management</li>
+					<li class="fragment">Use smart pointers to memory management!</li>
+				</ul>
+			</section>
+			<section>
+				<h4>Compilation on Windows - via command line</h4>
+				<ul>
+					<li class="fragment" style='font-size:70%'> Option 1 - environment in an existing command prompt window
+					<ul class="fragment">
+						<li class="fragment" style='font-size:70%'>Call <span class="fira accent">vcvars64.bat</span> script dedicated for your Visual Studio version</li>
+						<img class="fragment" src="img/win_environment.png" height="200">
+					</ul>
+					<li class="fragment" style='font-size:70%'> Option 2 - open Visual Studio Developer Command Prompt </li>
+					<img class="fragment" src="img/dev_command_prompt.png" height="250">
+				</ul>
+			</section>
+			<section>
+				<h4>Compilation on Windows - via command line</h4>
+				<ul>
+					<li class="fragment">Call compilation via cl.exe program</li>
+					<img class="fragment" src="img/cl_compilation.png">
+					<li class="fragment">Execute the program</li>
+					<img class="fragment" src="img/console_execution.png">
+					<li class="fragment" style='font-size:80%'>cl.exe and link.exe can be used separately, but any linking options specified to cl will be translated into options for the linker</li>
+					<li class="fragment" style='font-size:80%'>Windows recognizes either a slash or a backslash as a valid path separator, so *nix-style paths can be used as well</li>
+				</ul>
+			</section>
+			<section>
+				<h4>Compilation on Win - using Visual Studio IDE</h4>
+				<ul>
+					<li class="fragment">Create the project</li>
+					<img class="fragment" src="img/win_possible_projects.png">
+					<li class="fragment">Build the solution</li>
+					<img class="fragment" src="img/build_solution.png">
+					<li class="fragment">Start the program</li>
+					<img class="fragment" src="img/visual_studio_start_program.png">
+				</ul>
+			</section>
+			<section>
+				<h4>Compilation on Win - using Visual Studio IDE cd</h4>
+				<ul>
+					<li class="fragment" style='font-size:80%'>Build the solution</li>
+					<img class="fragment" src="img/build_solution.png" height="300">
+					<li class="fragment" style='font-size:80%'>Start the program</li>
+					<img class="fragment" src="img/visual_studio_start_program.png" height="150">
+				</ul>
+			</section>
+			<section>
+				<h4>Other options for Windows</h4>
+				<ul>
+					<li class="fragment">MinGW for Linux (gcc for Windows)</li>
+					<li class="fragment">WSL - Windows Subsystem for Linux</li>
+					<li class="fragment">Virtual Machine (VirtualBox for free)</li>
+					<li class="fragment">dual boot</li>
+				</ul>
+			</section>
+			<section>
+				<h3>GCC compilation with external dependencies - example</h3>
+				<pre class="fragment"><code data-code="./code/ov_example.cpp" data-trim></code></pre>
+				<pre class="fragment" ><code style='font-size:70%'>g++ main.cpp -I/home/mbencer/ov_install/release/runtime/include 
+					   -L/home/mbencer/ov_install/release/runtime/lib/intel64 -lopenvino -o test_ov</code></pre>
+				<p class="fragment" style='font-size:70%'>Note that we should tell also the loader where to find openvino library (via rpath where lib has to be installed in the fixed location or LD_LIBRARY_PATH)</p>
+				<pre class="fragment"><code style='font-size:70%'>LD_LIBRARY_PATH=/home/mbencer/ov_install/release/runtime/lib/intel64 ./test_ov</code></pre>
+			</section>
+			<section>
+				<h3>CMake automation</h3>
+				<ul>
+					<li class="fragment">industry standard</li>
+					<li class="fragment">cross-platform</li>
+					<li class="fragment">build automation, testing, packaging and installation</li>
+					<li class="fragment">compiler-independent</li>
+					<li class="fragment">CMake is not a build system itself; it generates another system's build files (like Makefiles for Linux)</li>
+				</ul>
+			</section>
+			<section>
+				<h3>CMake example - OpenVINO</h3>
+				<ul>
+					<li class="fragment">Clone repo and create the build folder (<span class="fira accent">mkdir build</span>)</li>
+					<li class="fragment">Run CMake generator</li>
+					<img class="fragment" src="img/cmake_command.png">
+					<li class="fragment">Run building</li>
+					<img class="fragment" src="img/cmake_build.png">
+				</ul>
+			</section>
+		</div>
+	</div>
+
+	<script src="dist/reveal.js"></script>
+	<script src="plugin/notes/notes.js"></script>
+	<script src="plugin/markdown/markdown.js"></script>
+	<script src="plugin/highlight/highlight.js"></script>
+	<script>
+		// More info about initialization & config:
+		// - https://revealjs.com/initialization/
+		// - https://revealjs.com/config/
+		Reveal.initialize({
+			hash: true,
+			transition: 'zoom',
+			dependencies: [{ src: './plugin/externalcode.js', condition: function() { return !!document.querySelector( '[data-code]' ); } }],
+			// Learn about plugins: https://revealjs.com/plugins/
+			plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+		});
+	</script>
+</body>
+
+</html>
